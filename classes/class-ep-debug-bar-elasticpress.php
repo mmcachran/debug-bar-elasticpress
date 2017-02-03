@@ -94,28 +94,31 @@ class EP_Debug_Bar_ElasticPress extends Debug_Bar_Panel {
 
 					$class = $response < 200 || $response >= 300 ? 'ep-query-failed' : '';
 
-					?><li class="ep-query-debug hide-query-body hide-query-results hide-query-args <?php echo sanitize_html_class( $class ); ?>">
+					?>
+					<li class="ep-query-debug hide-query-body hide-query-results hide-query-args <?php echo sanitize_html_class( $class ); ?>">
 						<div class="ep-query-host">
 							<strong><?php esc_html_e( 'Host:', 'debug-bar' ); ?></strong>
-							<?php echo esc_html( $query['host'] ); ?>
+							<?php echo isset( $query['host'] ) ? esc_html( $query['host'] ) : ''; ?>
 						</div>
 
-						<div class="ep-query-time"><?php
+						<div class="ep-query-time">
+							<?php
 							if ( ! empty( $query_time ) ) :
 								printf( __( '<strong>Time Taken:</strong> %d ms', 'debug-bar' ), ( $query_time * 1000 ) );
 							else :
 								_e( '<strong>Time Taken:</strong> -', 'debug-bar' );
 							endif;
-						?></div>
+							?>	
+						</div>
 
 						<div class="ep-query-url">
 							<strong><?php esc_html_e( 'URL:', 'debug-bar' ); ?></strong>
-							<?php echo esc_url( $query['url'] ); ?>
+							<?php echo isset( $query['url'] ) ? esc_url( $query['url'] ) : ''; ?>
 						</div>
 
 						<div class="ep-query-method">
 							<strong><?php esc_html_e( 'Method:', 'debug-bar' ); ?></strong>
-							<?php echo esc_html( $query['args']['method'] ); ?>
+							<?php echo isset( $query['args']['method'] ) ? esc_html( $query['args']['method'] ) : ''; ?>
 						</div>
 
 						<?php if ( ! empty( $query['query_args'] ) ) : ?>
