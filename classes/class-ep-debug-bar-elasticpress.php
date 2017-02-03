@@ -4,6 +4,8 @@ class EP_Debug_Bar_ElasticPress extends Debug_Bar_Panel {
 
 	/**
 	 * Panel menu title
+	 *
+	 * @var  string
 	 */
 	public $title;
 
@@ -73,8 +75,16 @@ class EP_Debug_Bar_ElasticPress extends Debug_Bar_Panel {
 
 		?>
 
-		<h2><?php printf( __( '<span>Total ElasticPress Queries:</span> %d', 'debug-bar' ), count( $queries ) ); ?></h2>
-		<h2><?php printf( __( '<span>Total Blocking ElasticPress Query Time:</span> %d ms', 'debug-bar' ), (int) ( $total_query_time * 1000 ) ); ?></h2><?php
+		<h2>
+		<?php
+			printf( __( '<span>Total ElasticPress Queries:</span> %d', 'debug-bar' ), count( $queries ) );
+		?>	
+		</h2>
+		<h2>
+		<?php
+			printf( __( '<span>Total Blocking ElasticPress Query Time:</span> %d ms', 'debug-bar' ), (int) ( $total_query_time * 1000 ) );
+		?>
+		</h2><?php
 
 		if ( empty( $queries ) ) :
 
@@ -84,9 +94,10 @@ class EP_Debug_Bar_ElasticPress extends Debug_Bar_Panel {
 
 		else :
 
-			?><ol class="wpd-queries ep-queries-debug"><?php
-
-				foreach ( $queries as $query ) :
+			?>
+			<ol class="wpd-queries ep-queries-debug">
+				<?php
+				foreach ( (array) $queries as $query ) :
 					$query_time = ( ! empty( $query['time_start'] ) && ! empty( $query['time_finish'] ) ) ? $query['time_finish'] - $query['time_start'] : false;
 
 					$result = wp_remote_retrieve_body( $query['request'] );
@@ -144,7 +155,7 @@ class EP_Debug_Bar_ElasticPress extends Debug_Bar_Panel {
 							<pre class="query-results"><?php echo esc_html( stripslashes( json_encode( json_decode( $result, true ), JSON_PRETTY_PRINT ) ) ); ?></pre>
 						</div>
 					</li><?php
-					
+
 				endforeach;
 
 			?></ol><?php
